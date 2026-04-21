@@ -142,7 +142,9 @@ class Inventory:
         output_str: str = ""
         for i in range(self.get_total_products()):
             output_str += str(self.get_product(i))
-            output_str += "\n"
+            if i < self.get_total_products() - 1:
+                # Do not add a terminal line break
+                output_str += "\n"
         return output_str
 
 if __name__ == "__main__":
