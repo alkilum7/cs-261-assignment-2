@@ -23,8 +23,9 @@ class Inventory:
         # Store products in a private DynamicArray member
         self._products: DynamicArray = DynamicArray(dtype=ctypes.py_object)
         
-        # Logic to iterate through arguments and insert_last into self._products
-        pass
+        for i in range(len(product_names)):
+            prod = Product(product_names[i], stocks[i], prices[i])
+            self._products.insert_last(prod)
 
     '''
     ## Dynamic Array helper functions. These three functions will be how you interface
@@ -36,7 +37,7 @@ class Inventory:
     This method should return the total number of products in the inventory.
     '''
     def get_total_products(self) -> int:
-        pass
+        return len(self._products)
 
     '''
     This method should return the Product indexed by i in the dynamic array.
@@ -46,7 +47,10 @@ class Inventory:
     copy of the product, but the Product itself (i.e. don't allocate new memory)
     '''
     def get_product(self,i: int) -> Optional[Product]:
-        pass
+        if i >= 0 and i < len(self._products):
+            return self._products[i]
+        else:
+            return None
 
     '''
     This method should assign the value of the input Product "product"
@@ -56,7 +60,10 @@ class Inventory:
     and exit. 
     '''
     def set_product(self, i: int, product: Product) -> None:
-        pass
+        try:
+            self._products[i] = product
+        except IndexError:
+            print("Error: Out of range!")
 
     '''
     *** Below here you are not to access self._products dynamic array directly ***
@@ -76,7 +83,12 @@ class Inventory:
     the array. If the _products list is emtpy, it should return None.
     '''
     def find_max_price(self) -> Optional[Product]:
-        pass
+        max_price: int = 0
+        max_product: Product | None = None
+        for i in range(self.get_total_products()):
+            if(self.get_product(i).price > max_price):
+                max_product = self.get_product(i)
+        return max_product
 
     '''
     This function should return the product in a given Inventory object with
@@ -92,7 +104,14 @@ class Inventory:
     If the _products array is empty, it should return None
     '''
     def find_max_investment(self) -> Optional[Product]:
-        pass
+        max_investment: int = 0
+        max_product: Product | None = None
+        for i in range(self.get_total_products()):
+            product_i: Product | None = self.get_product(i)
+            investment: float = product_i.price * product_i.stock
+            if(investment > max_investment):
+                max_product = self.get_product(i)
+        return max_product
 
     '''
     This function should sort the products stored in a dynamic array by
@@ -107,14 +126,24 @@ class Inventory:
           don't use python's built-in sort method. 
     '''
     def sort_by_stock(self) -> None:
-        pass
-
+        for i in range(1, self.get_total_products()):
+            for j in range(i - 1, 0, -1):
+                # Compare j and j-1 and swap if needed
+                prod_a = self.get_product(j - 1)
+                prod_b = self.get_product(j)
+                if(prod_a.stock > prod_b.stock):
+                    self.set_product(j, prod_a)
+                    self.set_product(j - 1, prod_b)
 
     '''
     This function should return string containing a comma-separated list of all products
     '''
     def __str__(self) -> str:
-        return ""
+        output_str: str = ""
+        for i in range(self.get_total_products()):
+            output_str += str(self.get_product(i))
+            output_str += "\n"
+        return output_str
 
 if __name__ == "__main__":
     names = ["apples", "soup", "milk", "tofu", "poptarts", "lightbulbs", "soda", "chips"]
