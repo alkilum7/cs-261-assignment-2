@@ -39,7 +39,7 @@ print("==", "Here are the results of creating the Inventory")
 print(inventory)
 
 max_price = inventory.find_max_price()
-print("==", "Here's' the product with the maximum price:")
+print("==", "Here's the product with the maximum price:")
 print(max_price)
 
 max_investment = inventory.find_max_investment()
