@@ -112,6 +112,7 @@ class Inventory:
             investment: float = product_i.price * product_i.stock
             if(investment > max_investment):
                 max_product = self.get_product(i)
+                max_investment = investment
         return max_product
 
     '''
