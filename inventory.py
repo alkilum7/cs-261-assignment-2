@@ -83,11 +83,12 @@ class Inventory:
     the array. If the _products list is emtpy, it should return None.
     '''
     def find_max_price(self) -> Optional[Product]:
-        max_price: int = 0
+        max_price: float = 0.0
         max_product: Product | None = None
         for i in range(self.get_total_products()):
             if(self.get_product(i).price > max_price):
                 max_product = self.get_product(i)
+                max_price = max_product.price
         return max_product
 
     '''
